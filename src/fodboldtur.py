@@ -64,7 +64,7 @@ def gem():
 
 # Funktion der kaldes til slut i main funktionens while loop
 # Fungerer som en variabel og indeholder valget om brugeren vil afslutte programmet eller ej.
-def tilbage_til_menu():
+def tilbage_til_menu() -> str:
     return input('\nVil du tilbage til menuen? - Skriv Ja \nEller afslutte programmet? - Skriv Nej \n').lower()
 
 
@@ -74,7 +74,7 @@ def total_per_person(dic: dict):
     return 4500 / antalIndbetalere
 
 
-def formater_string(tekst: str, mellemrum: bool = False):
+def formater_string(tekst: str, mellemrum: bool = False) -> str:
     tekst = tekst.lower().title().replace(" ", "")
     if mellemrum:
         return re.sub(r"(?<=\w)([A-Z])", r" \1", tekst)
