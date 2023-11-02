@@ -93,6 +93,8 @@ def print_liste(dictionary: dict):
 
 # Funktion der styrer indbetalinger.
 def indbetal(dictionary: dict):
+    print('Her kan du lave håndtere indbetalingere. Du kan enten lave en indbetaling for en person på listen'
+          'eller tilføje en ny indbetaler ved bare at skrive deres navn.\n')
     person: str = input('Hvem er du? ')
     udenMellemrumPerson: str = formater_string(person)
     medMellemrumPerson: str = formater_string(person, True)
