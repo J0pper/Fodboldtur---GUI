@@ -3,6 +3,7 @@ GUI support for existing Fodboldtur assignment.
 
 
 ### TODO-LIST
+As of 14-02-2023 and ahead.
 
 - [ ] Display the owed amount for each person in the "skylder" column of the treeview
 - [ ] Fix button layout and sizing
