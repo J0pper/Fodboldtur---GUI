@@ -35,8 +35,8 @@ class FootballGUI(customtkinter.CTk):
                                  rowheight=30)
 
         # treeview selected color
-        self.treeStyle.map('Treeview',
-                           background=[('selected', '#1f6aa5')])
+        self.treeStyle.map("Treeview",
+                           background=[("selected", "#1f6aa5")])
 
         # treeview header styling
         self.treeStyle.configure("Treeview.Heading",
@@ -48,16 +48,18 @@ class FootballGUI(customtkinter.CTk):
 
         # treeview
         self.tree = ttk.Treeview(self)
-        self.tree.configure(columns='paid_amount')
+        self.tree.configure(columns=("paid_amount", "owed_amount"))
         self.tree.grid(row=0, column=1, rowspan=10, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
         # define headings
-        self.tree.heading('#0', text='Navn', anchor='c')
-        self.tree.heading('paid_amount', text="Indbetalt beløb", anchor='c')
+        self.tree.heading("#0", text="Navn", anchor="c")
+        self.tree.heading("paid_amount", text="Indbetalt beløb", anchor="c")
+        self.tree.heading("owed_amount", text="Skylder", anchor="c")
 
         # configure columns
-        self.tree.column('#0', anchor='c', minwidth=550)
-        self.tree.column('paid_amount', anchor='c', minwidth=150)
+        self.tree.column("#0", anchor="c", minwidth=750)
+        self.tree.column("paid_amount", anchor="c", minwidth=150)
+        self.tree.column("owed_amount", anchor="c", minwidth=150)
 
         # create and format frame for action buttons
         self.button_frame = customtkinter.CTkFrame(self)
@@ -92,8 +94,6 @@ class FootballGUI(customtkinter.CTk):
                                                           text=self.buttonGroupErrorMsgText)
 
         self.buttonGroupErrorMsg.grid(row=6, column=2)
-
-
 
         # create frame for the log
         self.logFrame = customtkinter.CTkScrollableFrame(master=self,
