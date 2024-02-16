@@ -17,24 +17,10 @@ def shiddy_init(treeview_widget, log_frame_widget):
     lg.update_logframe(log_widget)
 
 
-def make_payment(window, error_label_text, person, amount):
+def make_transaction(window, error_label_text, person, amount, txn_type: str):
     validation = [lambda: _vali_person(person),
                   lambda: _vali_input_legitimacy(amount),
-                  lambda: _vali_amount_deposit(person, amount)]
-    success, msg = misc.general_validation_handler(validation, error_label_text)
-    if not success:
-        return
-
-    lg.log(msg)
-    lg.update_logframe(log_widget)
-    misc.save_data(tree, footballTrip)
-    window.destroy()
-
-
-def retract_payment(window, error_label_text, person, amount):
-    validation = [lambda: _vali_person(person),
-                  lambda: _vali_input_legitimacy(amount),
-                  lambda: _vali_amount_retract(person, amount)]
+                  lambda: _vali_transaction(person, amount, txn_type)]
     success, msg = misc.general_validation_handler(validation, error_label_text)
     if not success:
         return
@@ -46,7 +32,7 @@ def retract_payment(window, error_label_text, person, amount):
 
 
 def add_member(window, error_label_text, person, start_amount):
-    validation = [lambda: _vali_person(person),
+    validation = [lambda: _vali_person(person, add=True),
                   lambda: _vali_input_legitimacy(start_amount),
                   lambda: _vali_add_member(person, start_amount)]
     success, msg = misc.general_validation_handler(validation, error_label_text)
@@ -75,9 +61,11 @@ def rem_member(window, error_label_text, person, keep_money: bool = False):
 # -------------------------- |
 # ----- Error handling ----- |
 # -------------------------- v
-def _vali_person(person) -> tuple[bool, str]:
+def _vali_person(person, add=False) -> tuple[bool, str]:
     # If the person isn't in the dictionary, an error has occurred and the function return with and error-message.
     if person not in footballTrip.keys():
+        if add:
+            return True, "The person is safe to be added."
         return False, "you make stupid error, no person with that name."
     else:
         return True, "Completion case - my method bad :(. Everything went smoothly."
@@ -103,6 +91,18 @@ def _vali_input_legitimacy(amount) -> tuple[bool, str]:
 # -------------------------- ^
 # ----- Error handling ----- |
 # -------------------------- |
+
+
+def _vali_transaction(person, amount, txn_type: str) -> tuple[bool, str]:
+    match txn_type:
+        case "Indbetaling":
+            print("indbetaling")
+            return _vali_amount_deposit(person, amount)
+        case "Udbetaling":
+            print("udbetaling")
+            return _vali_amount_retract(person, amount)
+        case _:
+            return False, "Vælg en transaktionstype."
 
 
 def _vali_amount_deposit(person, amount) -> tuple[bool, str]:

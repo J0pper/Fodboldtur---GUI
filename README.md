@@ -5,10 +5,12 @@ GUI support for existing Fodboldtur assignment.
 ### TODO-LIST
 As of 14-02-2023 and ahead.
 
-- [ ] Display the owed amount for each person in the "skylder" column of the treeview
+- [x] Collect the "indbetaling" and "udbetaling" buttons into one "transaction" button
+- [x] Display the owed amount for each person in the "resterende beløb" column of the treeview
+- [ ] Fix integer and floating number stuff - perhaps with some string magic; one for the int-number and one for the decimals
 - [ ] Fix button layout and sizing
 - [ ] Create settings menu/frame
-  - [ ] Log on/off
+  - [ ] Turn logging on/off
   - [ ] Filter log
     - [ ] Save messages
     - [ ] Action messages

@@ -40,10 +40,10 @@ def update_treeview(treeview, content: dict):
 
     information: list = []
     for key, val in content.items():
-        information.append((key, val))
+        information.append((key, val, total_per_person(content)-int(val)))
 
     for info in information:
-        treeview.insert('', index=tk.END, text=info[0], values=info[1])
+        treeview.insert('', index=tk.END, text=info[0], values=(info[1], info[2]))
 
 
 def general_validation_handler(funcs_to_validate: list, error_label_text) -> tuple[bool, str]:

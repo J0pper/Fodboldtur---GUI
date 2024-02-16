@@ -35,8 +35,8 @@ class FootballGUI(customtkinter.CTk):
                                  rowheight=30)
 
         # treeview selected color
-        self.treeStyle.map("Treeview",
-                           background=[("selected", "#1f6aa5")])
+        self.treeStyle.map('Treeview',
+                           background=[('selected', '#1f6aa5')])
 
         # treeview header styling
         self.treeStyle.configure("Treeview.Heading",
@@ -48,18 +48,18 @@ class FootballGUI(customtkinter.CTk):
 
         # treeview
         self.tree = ttk.Treeview(self)
-        self.tree.configure(columns=("paid_amount", "owed_amount"))
+        self.tree.configure(columns=("paid_amount", "debt_amount"))
         self.tree.grid(row=0, column=1, rowspan=10, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
         # define headings
         self.tree.heading("#0", text="Navn", anchor="c")
         self.tree.heading("paid_amount", text="Indbetalt beløb", anchor="c")
-        self.tree.heading("owed_amount", text="Skylder", anchor="c")
+        self.tree.heading("debt_amount", text="Resterende beløb", anchor="c")
 
         # configure columns
-        self.tree.column("#0", anchor="c", minwidth=750)
-        self.tree.column("paid_amount", anchor="c", minwidth=150)
-        self.tree.column("owed_amount", anchor="c", minwidth=150)
+        self.tree.column("#0", anchor="c", minwidth=550)
+        self.tree.column("paid_amount", anchor="c", minwidth=250)
+        self.tree.column("debt_amount", anchor="c", minwidth=250)
 
         # create and format frame for action buttons
         self.button_frame = customtkinter.CTkFrame(self)
@@ -68,15 +68,10 @@ class FootballGUI(customtkinter.CTk):
         self.label_button_frame = customtkinter.CTkLabel(master=self.button_frame, text="Foretag handling")
         self.label_button_frame.grid(row=0, column=2, columnspan=1, padx=10, pady=10)
         # create and format action buttons
-        self.makePaymentButton = customtkinter.CTkButton(master=self.button_frame,
-                                                         text="Lav indbetaling",
-                                                         command=lambda: self.make_transaction(True))
-        self.makePaymentButton.grid(row=1, column=2, pady=10, padx=20, sticky="n")
-
-        self.retractPaymentButton = customtkinter.CTkButton(master=self.button_frame,
-                                                            text="Lav udbetaling",
-                                                            command=lambda: self.make_transaction(False))
-        self.retractPaymentButton.grid(row=2, column=2, pady=10, padx=20, sticky="n")
+        self.makeTransactionButton = customtkinter.CTkButton(master=self.button_frame,
+                                                             text="Foretag transaktion",
+                                                             command=lambda: self.make_transaction(True))
+        self.makeTransactionButton.grid(row=1, column=2, pady=10, padx=20, sticky="n")
 
         self.showLeaderBoardButton = customtkinter.CTkButton(master=self.button_frame, text="Leaderboard of shame")
         self.showLeaderBoardButton.grid(row=3, column=2, pady=10, padx=20, sticky="n")
@@ -95,6 +90,8 @@ class FootballGUI(customtkinter.CTk):
 
         self.buttonGroupErrorMsg.grid(row=6, column=2)
 
+
+
         # create frame for the log
         self.logFrame = customtkinter.CTkScrollableFrame(master=self,
                                                          label_text="Log",
@@ -104,7 +101,7 @@ class FootballGUI(customtkinter.CTk):
         # run a terrible initialization function
         fb.shiddy_init(self.tree, self.logFrame)
 
-    def new_window(self, title, width, height, resizable):
+    def new_window(self, title: str, width: int, height: int, resizable: bool):
         newWindow = customtkinter.CTkToplevel(self)  # create CTk window like you do with the Tk window
         newWindow.title(title)
         newWindow.geometry(f"{width}x{height}")
@@ -116,53 +113,57 @@ class FootballGUI(customtkinter.CTk):
         selected = self.get_selected(self.tree)
 
         title = "Foretag transaktion."
-        makePaymentWindow = self.new_window(title=title, width=400, height=250, resizable=False)
+        makePaymentWindow = self.new_window(title=title, width=400, height=400, resizable=False)
 
         makePaymentWindow.grid_columnconfigure((0, 1, 2, 3), weight=1)
         makePaymentWindow.grid_rowconfigure((0, 1, 2, 3), weight=1)
 
-        keyWord: str = "tilføjes" if deposit else "fratrækkes"
-        infoLabelText = (f"{selected[0]} har indbetalt {selected[1]} kr.\n"
-                         f"Hvor meget skal der {keyWord}?")
-        customtkinter.CTkLabel(master=makePaymentWindow, text=infoLabelText)\
+        txnTypeVar = customtkinter.StringVar()
+        customtkinter.CTkLabel(makePaymentWindow, text="Vælg transaktionstype.")\
             .grid(row=0, column=0, columnspan=4)
+        customtkinter.CTkSegmentedButton(makePaymentWindow,
+                                         values=["Indbetaling", "Udbetaling"],
+                                         variable=txnTypeVar)\
+            .grid(row=1, column=0, columnspan=4)
+
+        infoLabelText = (f"{selected[0]} har indbetalt {selected[1]} kr.\n"
+                         f"Vælg transaktionsbeløb.")
+        customtkinter.CTkLabel(master=makePaymentWindow, text=infoLabelText)\
+            .grid(row=2, column=0, columnspan=4)
 
         customtkinter.CTkLabel(master=makePaymentWindow,
                                text="Indtast beløb: ",)\
-            .grid(row=1, column=0, sticky="e")
+            .grid(row=3, column=0, sticky="e")
 
         entryVar = customtkinter.StringVar()
         customtkinter.CTkEntry(master=makePaymentWindow,
                                placeholder_text="Beløb",
                                textvariable=entryVar,
                                width=250)\
-            .grid(row=1, column=1, columnspan=3)
+            .grid(row=3, column=1, columnspan=3)
 
         # Label for displaying error-message for entry-field
         errorLabelText = customtkinter.StringVar()
         customtkinter.CTkLabel(master=makePaymentWindow,
                                textvariable=errorLabelText,
                                text_color="red")\
-            .grid(row=2, column=0, columnspan=4)
+            .grid(row=4, column=0, columnspan=4)
 
-        customtkinter.CTkButton(master=makePaymentWindow,
-                                text="Udfør",
-                                command=lambda: fb.make_payment(makePaymentWindow,
-                                                                errorLabelText,
-                                                                selected[0],
-                                                                entryVar.get()) if deposit
-                                else fb.retract_payment(makePaymentWindow,
-                                                        errorLabelText,
-                                                        selected[0],
-                                                        entryVar.get()))\
-            .grid(row=3, column=0, columnspan=2)
+        (customtkinter.CTkButton(master=makePaymentWindow,
+                                 text="Udfør",
+                                 command=lambda: fb.make_transaction(makePaymentWindow,
+                                                                     errorLabelText,
+                                                                     selected[0],
+                                                                     entryVar.get(),
+                                                                     txnTypeVar.get()))\
+         .grid(row=5, column=0, columnspan=2))
 
         customtkinter.CTkButton(master=makePaymentWindow,
                                 text="Annuller",
                                 fg_color="#666666",
                                 hover_color="#333333",
                                 command=makePaymentWindow.destroy)\
-            .grid(row=3, column=2, columnspan=2)
+            .grid(row=5, column=2, columnspan=2)
 
     def add_member(self):
         addMemberWindow = self.new_window(title="Tilføj medlem", width=400, height=300, resizable=False)
@@ -206,7 +207,11 @@ class FootballGUI(customtkinter.CTk):
                                                               firstName.get() + " " + surName.get(),
                                                               startAmount.get()))\
             .grid(row=5, column=0, columnspan=2)
-        customtkinter.CTkButton(master=addMemberWindow, text="Annuller") \
+        customtkinter.CTkButton(master=addMemberWindow,
+                                text="Annuller",
+                                fg_color="#666666",
+                                hover_color="#333333",
+                                command=addMemberWindow.destroy)\
             .grid(row=5, column=2, columnspan=2)
 
     def remove_member(self):
