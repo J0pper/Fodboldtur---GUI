@@ -26,7 +26,7 @@ class FootballGUI(customtkinter.CTk):
         # title
         self.titleFrame = customtkinter.CTkFrame(self, fg_color="#2b2b2b")
         self.titleFrame.grid(row=0, column=1, padx=20, pady=(10, 0))
-        self.titleLabel = customtkinter.CTkLabel(self.titleFrame, text="Fodboldtur")
+        self.titleLabel = customtkinter.CTkLabel(self.titleFrame, text="Fodboldtur Interface")
         self.titleLabel.grid(row=0, column=1, pady=10)
         self.titleLabel.configure(font=(None, 30))
 
@@ -42,7 +42,7 @@ class FootballGUI(customtkinter.CTk):
             .grid(row=0, column=2)
 
         # progress bar
-        progressText = customtkinter.StringVar(value="0/4500 rupees betalt")
+        progressText = customtkinter.StringVar()
         self.progressLabel = customtkinter.CTkLabel(self.titleFrame, textvariable=progressText)
         self.progressLabel.grid(row=1, column=1, pady=10, sticky="s")
         self.progressLabel.configure(font=(None, 20))

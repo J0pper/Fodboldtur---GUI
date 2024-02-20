@@ -86,6 +86,6 @@ def update_progress(data: dict, progress_text, progress_bar, pay_goal: int) -> N
     totalPaid: int = 0
     for amount in data.values():
         totalPaid += amount
-    progress_text.set(f"{totalPaid}/{pay_goal} rupees betalt.")
+    progress_text.set(f"{totalPaid}/{pay_goal} rupees indsamlet.")
     progress_bar.set(totalPaid / pay_goal)
     return NoReturn
