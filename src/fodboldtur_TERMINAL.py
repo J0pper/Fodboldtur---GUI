@@ -6,7 +6,7 @@ import re
 
 
 # Definer en variabel for savefilen.
-filename: str = 'data/betalinger.pk'
+filename: str = '../data/betalinger.pk'
 
 
 # Funktion der styrer hovedmenuen.

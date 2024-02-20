@@ -31,7 +31,7 @@ class FootballGUI(customtkinter.CTk):
         self.titleLabel.configure(font=(None, 30))
 
         # settings button
-        self.settingsIcon = customtkinter.CTkImage(dark_image=Image.open("img/settings_icon_dark.png"), size=(25, 25))
+        self.settingsIcon = customtkinter.CTkImage(dark_image=Image.open("../img/settings_icon_dark.png"), size=(25, 25))
         customtkinter.CTkButton(self,
                                 image=self.settingsIcon,
                                 text="",

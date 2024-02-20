@@ -4,7 +4,7 @@ import customtkinter
 from typing import NoReturn
 
 # Specifies the path to the log-file.
-logFileName: str = "data/log.pkl"
+logFileName: str = "../data/log.pkl"
 # Specifies the list for the tkinter log-labels.
 logLabels: list = []
 

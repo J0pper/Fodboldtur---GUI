@@ -5,7 +5,7 @@ import re
 from typing import NoReturn
 
 
-data_file_name: str = "data/betalinger.pk"
+data_file_name: str = "../data/betalinger.pk"
 
 def load_data() -> tuple[dict, str, str]:
     if not os.path.isfile(data_file_name):
