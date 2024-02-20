@@ -1,22 +1,24 @@
 import customtkinter
 
-customtkinter.set_default_color_theme("dark-blue")
+class MyFrame(customtkinter.CTkFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+
+        # add widgets onto the frame, for example:
+        self.label = customtkinter.CTkLabel(self)
+        self.label.grid(row=0, column=0, padx=20)
 
 
-app = customtkinter.CTk()
-app.grid_columnconfigure(2, weight=1)
-app.grid_rowconfigure(1, weight=1)
+class App(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("400x200")
+        self.grid_rowconfigure(0, weight=1)  # configure grid system
+        self.grid_columnconfigure(0, weight=1)
 
-toplevel = customtkinter.CTkToplevel()
-
-
-frame_2 = customtkinter.CTkScrollableFrame(app, orientation="vertical", label_text="CTkScrollableFrame")
-frame_2.grid(row=1, column=0, padx=20, pady=20)
-
-somthing = {"0": "0", "1": "1", "2": "2", "3": "3"}
-
-for i, j in somthing.items():
-    customtkinter.CTkLabel(frame_2, text=f"{i}: {j}").grid(row=i, padx=10, pady=2)
+        self.my_frame = MyFrame(master=self)
+        self.my_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
 
 
+app = App()
 app.mainloop()
